@@ -23,4 +23,6 @@ public class Vehicle {
     @ManyToOne
     @JoinColumn(name = "model_id")
     private Model model;
+
+    private boolean onTesting;
 }

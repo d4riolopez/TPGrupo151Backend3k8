@@ -35,4 +35,8 @@ public class Interested {
     @OneToMany(mappedBy = "interested")
     private Set<Test> tests;
 
+    private boolean licenceActive(){
+        return LocalDate.now().isBefore(expirationLicenceDAte);
+    }
+
 }
