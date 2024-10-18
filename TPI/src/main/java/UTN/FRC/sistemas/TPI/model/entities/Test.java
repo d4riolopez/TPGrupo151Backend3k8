@@ -20,15 +20,15 @@ public class Test {
 
     private String comments;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_file")
     private Employee employee;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "interested_id")
     private Interested interested;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 }

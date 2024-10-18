@@ -17,10 +17,10 @@ public class Model {
 
     private String name;
 
-    @OneToMany(mappedBy = "model")
+    @OneToMany(mappedBy = "model", cascade = CascadeType.ALL)
     private Set<Vehicle> vehicles;
 
-    @ManyToOne
+    @ManyToOne(cascade =  CascadeType.ALL)
     @JoinColumn(name = "markId")
     private TradeMark mark;
 

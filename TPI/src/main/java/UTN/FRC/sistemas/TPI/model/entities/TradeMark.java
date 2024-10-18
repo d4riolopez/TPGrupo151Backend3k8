@@ -17,6 +17,6 @@ public class TradeMark {
 
     private String name;
 
-    @OneToMany(mappedBy = "mark")
+    @OneToMany(mappedBy = "mark", cascade = CascadeType.ALL)
     private Set<Model> models;
 }

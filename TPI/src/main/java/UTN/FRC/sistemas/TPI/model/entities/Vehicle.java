@@ -17,10 +17,10 @@ public class Vehicle {
 
     private String patent;
 
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private Set<Position> positions;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "model_id")
     private Model model;
 

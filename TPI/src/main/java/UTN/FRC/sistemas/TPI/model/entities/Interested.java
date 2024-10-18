@@ -32,7 +32,7 @@ public class Interested {
 
     private LocalDate expirationLicenceDAte;
 
-    @OneToMany(mappedBy = "interested")
+    @OneToMany(mappedBy = "interested", cascade = CascadeType.ALL)
     private Set<Test> tests;
 
     private boolean licenceActive(){

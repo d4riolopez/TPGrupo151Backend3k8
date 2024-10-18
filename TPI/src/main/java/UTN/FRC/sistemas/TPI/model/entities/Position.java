@@ -21,7 +21,7 @@ public class Position {
 
     private Long length;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 }
