@@ -13,7 +13,7 @@ import java.util.List;
 public class EmployeeService extends ServiceImp<Employee, Long> {
     private final EmployeeRepository employeeRepository;
 
-    private String notFoundMessage = "There isn't a employee with that id:";
+    private String notFoundMessage = "There isn't an employee with that id:";
 
     @Override
     public void create(Employee entity) {
