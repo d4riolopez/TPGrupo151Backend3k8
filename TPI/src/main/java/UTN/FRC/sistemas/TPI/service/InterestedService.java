@@ -22,7 +22,7 @@ public class InterestedService extends ServiceImp<Interested, Long> {
     @Override
     public Interested findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(()-> new  + id));
+                .orElseThrow(()-> new InterestedNotFoundException(notFoundMessage + id));
     }
 
     @Override
