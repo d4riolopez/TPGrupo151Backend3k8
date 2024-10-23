@@ -35,8 +35,9 @@ public class Interested {
     @OneToMany(mappedBy = "interested", cascade = CascadeType.ALL)
     private Set<Test> tests;
 
-    private boolean licenceActive(){
+    public boolean isLicenceActive(){
         return LocalDate.now().isBefore(expirationLicenceDAte);
     }
+
 
 }

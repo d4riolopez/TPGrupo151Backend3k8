@@ -1,6 +1,6 @@
 package UTN.FRC.sistemas.TPI.service;
 
-import UTN.FRC.sistemas.TPI.exceptionHandling.exception.InterestedNotFoundException;
+import UTN.FRC.sistemas.TPI.exceptionHandling.exception.Interested.InterestedNotFoundException;
 import UTN.FRC.sistemas.TPI.model.entities.Interested;
 import UTN.FRC.sistemas.TPI.repository.InterestedRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InterestedService extends ServiceImp<Interested, Long> {
     private final InterestedRepository repository;
-    private String notFoundMessage = "There isn't an interested customer with that id:";
+    private final String notFoundMessage = "There isn't an interested customer with that id:";
 
     @Override
     public void create(Interested entity) {

@@ -1,12 +1,11 @@
 package UTN.FRC.sistemas.TPI.service;
 
-import UTN.FRC.sistemas.TPI.exceptionHandling.exception.VehicleNotFoundException;
+import UTN.FRC.sistemas.TPI.exceptionHandling.exception.Vehicle.VehicleNotFoundException;
 import UTN.FRC.sistemas.TPI.model.entities.Vehicle;
 import UTN.FRC.sistemas.TPI.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.spi.ServiceRegistry;
 import java.util.List;
 
 @Service

@@ -1,4 +1,4 @@
-package UTN.FRC.sistemas.TPI.exceptionHandling.exception;
+package UTN.FRC.sistemas.TPI.exceptionHandling.exception.Vehicle;
 
 public class VehicleNotFoundException extends RuntimeException{
     public VehicleNotFoundException(String message){
