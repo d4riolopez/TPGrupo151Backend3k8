@@ -21,4 +21,6 @@ public class Employee {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private Set<Test> tests;
+
+    private boolean onTesting;
 }

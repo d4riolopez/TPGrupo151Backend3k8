@@ -31,4 +31,8 @@ public class Test {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
+
+    public boolean isOnGoing(){
+        return (endedDateTime == null);
+    }
 }

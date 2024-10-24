@@ -1,23 +1,41 @@
 package UTN.FRC.sistemas.TPI.controller;
 
+import UTN.FRC.sistemas.TPI.mapper.TestMapper;
+import UTN.FRC.sistemas.TPI.model.dto.TestDto;
 import UTN.FRC.sistemas.TPI.model.entities.Test;
 import UTN.FRC.sistemas.TPI.service.TestService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/vi-1/test")
 @RestController
 @RequiredArgsConstructor
 public class TestController {
     private final TestService testService;
-//validation applied on test service
-    @PostMapping
-    public ResponseEntity<?> createTest(@RequestBody Test test){
-        testService.create(test);
+    private final TestMapper mapper;
+
+    //validation applied on test service
+    @PostMapping("/")
+    public ResponseEntity<?> createTest(@RequestBody TestDto dto) {
+        testService.create(mapper.toEntity(dto));
         return ResponseEntity.ok("Test Successfully created");
+    }
+
+    // Listar todas las pruebas en curso en un momento dado
+    @GetMapping("/")
+    public ResponseEntity<?> getOngoingTests() {
+        return new ResponseEntity<>("", HttpStatus.OK);
+    }
+
+    //Finalizar una prueba, permitiéndole al empleado agregar un comentario
+    //sobre la misma
+    @PatchMapping("/")
+    public ResponseEntity<?> finishTest(@Valid @RequestBody TestDto dto) {
+
+        testService.finishTest(mapper.toEntity(dto));
+        return new ResponseEntity<>("Test finished", HttpStatus.OK);
     }
 }

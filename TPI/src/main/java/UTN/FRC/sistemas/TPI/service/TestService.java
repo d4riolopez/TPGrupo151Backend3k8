@@ -1,9 +1,12 @@
 package UTN.FRC.sistemas.TPI.service;
 
+import UTN.FRC.sistemas.TPI.exceptionHandling.exception.EmployeeAlreadyTestingException;
 import UTN.FRC.sistemas.TPI.exceptionHandling.exception.Interested.InterestedIsRestrictedException;
 import UTN.FRC.sistemas.TPI.exceptionHandling.exception.Interested.InterestedLicenseExpiredException;
 import UTN.FRC.sistemas.TPI.exceptionHandling.exception.TestNotFoundException;
 import UTN.FRC.sistemas.TPI.exceptionHandling.exception.Vehicle.VehicleAlreadyTestingException;
+import UTN.FRC.sistemas.TPI.model.dto.TestDto;
+import UTN.FRC.sistemas.TPI.model.entities.Employee;
 import UTN.FRC.sistemas.TPI.model.entities.Interested;
 import UTN.FRC.sistemas.TPI.model.entities.Test;
 import UTN.FRC.sistemas.TPI.model.entities.Vehicle;
@@ -11,36 +14,25 @@ import UTN.FRC.sistemas.TPI.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class TestService extends ServiceImp<Test, Long> {
     private final TestRepository repository;
-    private String notFoundMessage = "There isn't a test with that id:";
+    private final String notFoundMessage = "There isn't a test with that id:";
 
     @Override
     public void create(Test test) {
-        //Crear una nueva prueba,
-        // Vamos a asumir que un interesado puede tener una única licencia registrada en el sistema y
-        //que todos los vehículos están patentados.
+      repository.save(test);
+    }
 
-        Interested interested = test.getInterested();
-        //ni que esté restringido para probar vehículos en la agencia.
-        if (!interested.getRestricted()) {
-            //validando que el cliente no tenga la licencia vencida
-            if (interested.isLicenceActive()) {
-                Vehicle vehicle = test.getVehicle();
-                //validar que un mismo vehículo no esté siendo probado en ese mismo momento.
-                if (!vehicle.isOnTesting()) {
-                    vehicle.setOnTesting(true);
-                    repository.save(test);
-                }else
-                    throw  new VehicleAlreadyTestingException("The current vehicle is in a drive test already");
-            } else
-                throw new InterestedLicenseExpiredException("The license of the interested party has expired");
-        } else
-            throw new InterestedIsRestrictedException("The current interested is restricted in the company");
+    public Test toEntity(TestDto dto){
+        Test test = new Test();
+        test.setId(dto.id());
+        test.setComments(dto.comments());
+        test.setInterested();
     }
 
     @Override
@@ -72,5 +64,29 @@ public class TestService extends ServiceImp<Test, Long> {
     @Override
     public boolean existsById(Long id) {
         return repository.existsById(id);
+    }
+
+    public void finishTest(Test test) {
+        test.setEndedDateTime(LocalDateTime.now());
+        test.getVehicle().setOnTesting(false);
+        test.getEmployee().setOnTesting(false);
+        update(test);
+    }
+
+    private void validateEmployee(Employee employee) {
+        if (employee.isOnTesting())
+            throw new EmployeeAlreadyTestingException("The current employee is in a drive test already");
+    }
+
+    private void validateInterested(Interested interested) {
+        if (!interested.isLicenceActive())
+            throw new InterestedLicenseExpiredException("The license of the interested party has expired");
+        if (interested.getRestricted())
+            throw new InterestedIsRestrictedException("The current interested is restricted in the company");
+    }
+
+    private void validateVehicle(Vehicle vehicle) {
+        if (vehicle.isOnTesting())
+            throw new VehicleAlreadyTestingException("The current vehicle is in a drive test already");
     }
 }
