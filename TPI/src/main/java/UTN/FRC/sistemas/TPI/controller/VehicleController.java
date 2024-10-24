@@ -1,6 +1,7 @@
 package UTN.FRC.sistemas.TPI.controller;
 
 import UTN.FRC.sistemas.TPI.model.entities.Vehicle;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,10 +22,10 @@ public class VehicleController {
     //hacerlo.
 
     //if isTooFar || inRestrictedArea ->
-            //notify Employee
-            //client setRestricted==true
+    //notify Employee
+    //client setRestricted==true
     @GetMapping("/positon")
-    public ResponseEntity<?> getCurrentPosition(@RequestBody Vehicle vehicle){
-
+    public ResponseEntity<?> getCurrentPosition(@RequestBody Vehicle vehicle) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

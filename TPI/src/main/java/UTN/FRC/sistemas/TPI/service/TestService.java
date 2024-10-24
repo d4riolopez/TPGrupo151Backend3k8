@@ -25,14 +25,12 @@ public class TestService extends ServiceImp<Test, Long> {
 
     @Override
     public void create(Test test) {
-      repository.save(test);
-    }
+        validateEmployee(test.getEmployee());
+        validateInterested(test.getInterested());
+        validateVehicle(test.getVehicle());
+        test.setStartedDateTime(LocalDateTime.now());
 
-    public Test toEntity(TestDto dto){
-        Test test = new Test();
-        test.setId(dto.id());
-        test.setComments(dto.comments());
-        test.setInterested();
+        repository.save(test);
     }
 
     @Override
