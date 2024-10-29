@@ -20,11 +20,13 @@ public class Test {
 
     private String comments;
 
+    private boolean isIncident = false;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_file")
     private Employee employee;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "interested_id")
     private Interested interested;
 

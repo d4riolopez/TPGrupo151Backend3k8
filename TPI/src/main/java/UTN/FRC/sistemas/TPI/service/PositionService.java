@@ -15,13 +15,13 @@ public class PositionService extends ServiceImp<Position, Long> {
 
     private final PositionRepository repository;
     private final String positionNotFoundMessage = "There isn't a position with that id:";
-    private final InterestedService interestedService;
+    private final TestService testService;
     private final WebClient webClient;
 
     @Autowired
-    public PositionService(WebClient.Builder builder, PositionRepository positionRepository, InterestedService interestedService) {
+    public PositionService(WebClient.Builder builder, PositionRepository positionRepository, TestService testService) {
         this.repository = positionRepository;
-        this.interestedService = interestedService;
+        this.testService = testService;
         this.webClient = builder.baseUrl("http://localhost:8081").build();
     }
 
@@ -36,13 +36,13 @@ public class PositionService extends ServiceImp<Position, Long> {
         if (validatePosition(latitude, length)) {
             //restricting the interest of the current test
             test.getInterested().setRestricted(true);
-            interestedService.update(test.getInterested());
+            test.setIncident(true);
+            testService.update(test);
 
             //sending the notification to the employee of the test
             sendNotification(test.getEmployee().getContactNumber());
         }
         return position;
-
     }
 
 

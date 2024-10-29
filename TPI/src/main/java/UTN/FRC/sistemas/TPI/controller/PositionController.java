@@ -37,14 +37,4 @@ public class PositionController {
         return new ResponseEntity<>(position, HttpStatus.OK);
     }
 
-
-    //if isTooFar || inRestrictedArea ->
-    //notify Employee
-    //client setRestricted==true
-    @GetMapping("/positon")
-    public ResponseEntity<?> getCurrentPosition(@Valid @RequestBody TestDto dto) {
-        Test test = mapper.toEntity(dto);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

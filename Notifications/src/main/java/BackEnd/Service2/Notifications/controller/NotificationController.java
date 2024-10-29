@@ -39,8 +39,7 @@ public class NotificationController {
                                 promotionContent,
                                 LocalDateTime.now());
                         notificationService.createNotification(notification);
-                    }
-            );
+                    });
             return new ResponseEntity<>("All notifications were send", HttpStatus.OK);
         }
         return new ResponseEntity<>("There isn't any phoneNumber to send notification", HttpStatus.NO_CONTENT);
