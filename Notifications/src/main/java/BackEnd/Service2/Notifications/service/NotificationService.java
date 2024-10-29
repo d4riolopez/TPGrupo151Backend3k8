@@ -1,5 +1,7 @@
-package BackEnd.Service2.Notifications;
+package BackEnd.Service2.Notifications.service;
 
+import BackEnd.Service2.Notifications.repository.NotificationRepository;
+import BackEnd.Service2.Notifications.model.Notification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

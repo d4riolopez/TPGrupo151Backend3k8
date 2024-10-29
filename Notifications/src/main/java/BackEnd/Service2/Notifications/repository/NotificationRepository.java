@@ -1,5 +1,6 @@
-package BackEnd.Service2.Notifications;
+package BackEnd.Service2.Notifications.repository;
 
+import BackEnd.Service2.Notifications.model.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
