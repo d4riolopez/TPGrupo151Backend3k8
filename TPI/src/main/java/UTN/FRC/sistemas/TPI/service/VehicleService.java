@@ -1,6 +1,7 @@
 package UTN.FRC.sistemas.TPI.service;
 
 import UTN.FRC.sistemas.TPI.exceptionHandling.exception.Vehicle.VehicleNotFoundException;
+import UTN.FRC.sistemas.TPI.model.entities.Test;
 import UTN.FRC.sistemas.TPI.model.entities.Vehicle;
 import UTN.FRC.sistemas.TPI.repository.VehicleRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class VehicleService extends ServiceImp<Vehicle, Long> {
-    private String notFoundMessage = "There isn't a Vehicle with that id:";
+    private final String notFoundMessage = "There isn't a Vehicle with that id:";
     private final VehicleRepository repository;
+    private final TestService testService;
 
     @Override
     public void create(Vehicle entity) {
@@ -49,4 +51,5 @@ public class VehicleService extends ServiceImp<Vehicle, Long> {
     public boolean existsById(Long id) {
         return repository.existsById(id);
     }
-}
+
+   }

@@ -87,4 +87,8 @@ public class TestService extends ServiceImp<Test, Long> {
         if (vehicle.isOnTesting())
             throw new VehicleAlreadyTestingException("The current vehicle is in a drive test already");
     }
+
+    public List<Test> getOngoingTests() {
+        return repository.findByEndedDateTimeIsNull();
+    }
 }
