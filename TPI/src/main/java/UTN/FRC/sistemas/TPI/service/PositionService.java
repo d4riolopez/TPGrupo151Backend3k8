@@ -7,6 +7,7 @@ import UTN.FRC.sistemas.TPI.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -98,4 +99,12 @@ public class PositionService extends ServiceImp<Position, Long> {
         //needs to be implemented
         return false;
     }
+
+    public double calculateDistanceEuclidean(Position a, Position b) {
+        return Math.sqrt(
+                Math.pow(2, (b.getLatitude() - a.getLatitude())) +
+                        Math.pow(2, (b.getLength() - a.getLength())));
+    }
+
+    //public double calculate
 }
