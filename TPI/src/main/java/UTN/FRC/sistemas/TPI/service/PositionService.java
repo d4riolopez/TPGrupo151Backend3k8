@@ -33,7 +33,7 @@ public class PositionService extends ServiceImp<Position, Long> {
         position.setVehicle(test.getVehicle());
         position.setDateTime(LocalDateTime.now());
         create(position);
-
+////acaaaaaaaaaaaaaaaaa
         if (validatePosition(latitude, length)) {
             //restricting the interest of the current test
             test.getInterested().setRestricted(true);
@@ -99,6 +99,8 @@ public class PositionService extends ServiceImp<Position, Long> {
         //needs to be implemented
         return false;
     }
+    //auto(pos1, po2 ......)
+    //pos1 y pos2 + pos2 +pos3 .... + = distancia total
 
     public double calculateDistanceEuclidean(Position a, Position b) {
         return Math.sqrt(

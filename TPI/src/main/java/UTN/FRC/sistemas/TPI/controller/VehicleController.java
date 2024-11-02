@@ -28,6 +28,10 @@ public class VehicleController {
     //client setRestricted==true
     @GetMapping("/positon")
     public ResponseEntity<?> getCurrentPosition(@Valid @RequestBody TestDto dto) {
+        ////completar
+        //pruba tiene un autito, a ese autito le pedis la poscion,
+        //aca crear posicion verifica si esta en un lugar no prohibido
+        //si eta  en un lugar prohibido mandas la notificacion
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
