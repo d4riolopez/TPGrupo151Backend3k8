@@ -20,7 +20,7 @@ public class Test {
 
     private String comments;
 
-    private boolean isIncident = false;
+    private boolean incident = false;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_file")

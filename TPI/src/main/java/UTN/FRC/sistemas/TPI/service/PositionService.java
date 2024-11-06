@@ -95,18 +95,41 @@ public class PositionService extends ServiceImp<Position, Long> {
 
     }
 
+    public void damePociones(){
+        //pedirme a la api de la uv
+        //procesar esas ubicaciones
+        //agregar en una lista nuestra donde no se puede ir
+            //list<>
+            //radio valido
+    }
+
     private boolean validatePosition(Long latitude, Long length) {
-        //needs to be implemented
+        //creamos posicion
+        //return (esta dentro radio && !EstaZonaPRohibida)
+        // needs to be implemented
         return false;
     }
-    //auto(pos1, po2 ......)
-    //pos1 y pos2 + pos2 +pos3 .... + = distancia total
 
+    public boolean estaEnZonaProhibida(Position pos){
+        return true;
+        //if(aaa && bbb && ccc)
+    }
     public double calculateDistanceEuclidean(Position a, Position b) {
         return Math.sqrt(
-                Math.pow(2, (b.getLatitude() - a.getLatitude())) +
-                        Math.pow(2, (b.getLength() - a.getLength())));
+                Math.pow(2,
+                        ((b.getLatitude() - a.getLatitude()))*111 ) +
+                        Math.pow(2,
+                                (b.getLength() - a.getLength())*111
+                        ));
     }
 
-    //public double calculate
+    public void calculateRadio(){
+        //Dos validaciones
+        //1 si tiene menos de 5 km de distancia desde el centro
+        //2(en partes)
+        // medir desde el centro de cada zona peligrosa si la distancia hasta el punto es
+        // menor igual a su radio
+    }
+
+
 }

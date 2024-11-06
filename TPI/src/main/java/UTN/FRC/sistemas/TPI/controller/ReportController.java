@@ -52,7 +52,7 @@ public class ReportController {
         //km recorridos de un vehiculo en un periodo dado
     //iv. Detalle de pruebas realizadas para un vehículo
         //pruebas por vehiculo
-    @GetMapping("/test-by-vehicule/{vehicleId}")
+    @GetMapping("/test-by-vehicle/{vehicleId}")
     public ResponseEntity<?> getTestByVehicleId(@PathVariable Long vehicleId ){
         Set<Test> testsByVehicle = vehicleService.findById(vehicleId).getTests();
         if(!testsByVehicle.isEmpty()){
