@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table
 @Getter@Setter
 public class Employee {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long file;
 
     private String name;
