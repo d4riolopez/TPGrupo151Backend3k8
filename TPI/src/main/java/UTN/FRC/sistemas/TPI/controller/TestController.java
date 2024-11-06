@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/vi-1/test")
+import java.util.List;
+
+@RequestMapping("/api/v1/TPI/test")
 @RestController
 @RequiredArgsConstructor
 public class TestController {
@@ -19,7 +21,7 @@ public class TestController {
 
     //validation applied on test service
     @PostMapping("/")
-    public ResponseEntity<?> createTest(@RequestBody TestDto dto) {
+    public ResponseEntity<?> createTest(@Valid @RequestBody TestDto dto) {
         testService.create(mapper.toEntity(dto));
         return ResponseEntity.ok("Test Successfully created");
     }
@@ -27,15 +29,17 @@ public class TestController {
     // Listar todas las pruebas en curso en un momento dado
     @GetMapping("/")
     public ResponseEntity<?> getOngoingTests() {
-        return new ResponseEntity<>("", HttpStatus.OK);
+        List<Test> tests = testService.getOngoingTests();
+        return new ResponseEntity<>(tests, HttpStatus.OK);
     }
 
     //Finalizar una prueba, permitiéndole al empleado agregar un comentario
     //sobre la misma
     @PatchMapping("/")
     public ResponseEntity<?> finishTest(@Valid @RequestBody TestDto dto) {
-
         testService.finishTest(mapper.toEntity(dto));
         return new ResponseEntity<>("Test finished", HttpStatus.OK);
     }
+
+
 }

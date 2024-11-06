@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,4 +24,8 @@ public class Employee {
     private Set<Test> tests;
 
     private boolean onTesting;
+
+    public List<Test> getIncidents(){
+        return tests.stream().filter(Test::isIncident).toList();
+    }
 }

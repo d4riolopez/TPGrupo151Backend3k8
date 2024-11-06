@@ -71,6 +71,14 @@ public class TestService extends ServiceImp<Test, Long> {
         update(test);
     }
 
+    public List<Test> getOngoingTests() {
+        return repository.findByEndedDateTimeIsNull();
+    }
+
+    public List<Test> getAllIncidentTests() {
+        return repository.findByIncidentTrue();
+    }
+
     private void validateEmployee(Employee employee) {
         if (employee.isOnTesting())
             throw new EmployeeAlreadyTestingException("The current employee is in a drive test already");
@@ -87,4 +95,6 @@ public class TestService extends ServiceImp<Test, Long> {
         if (vehicle.isOnTesting())
             throw new VehicleAlreadyTestingException("The current vehicle is in a drive test already");
     }
+
+
 }

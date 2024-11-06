@@ -20,6 +20,9 @@ public class Vehicle {
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private Set<Position> positions;
 
+    @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.REMOVE, CascadeType.MERGE})
+    private Set<Test> tests;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "model_id")
     private Model model;
