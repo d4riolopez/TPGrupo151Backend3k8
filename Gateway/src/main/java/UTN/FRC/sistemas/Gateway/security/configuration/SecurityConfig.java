@@ -56,7 +56,7 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                        .requestMatchers("/login/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/user/**").permitAll()
                         .requestMatchers("/api/v1/notification/").hasAuthority(Role.EMPLOYEE.name())
                         .requestMatchers(HttpMethod.POST,"/api/v1/TPI/test/").hasAuthority(Role.EMPLOYEE.name())
                         .requestMatchers("/api/v1/TPI/position/**").hasAuthority(Role.INTERESTED.name())
