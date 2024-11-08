@@ -100,15 +100,6 @@ public class PositionService extends ServiceImp<Position, Long> {
                 .subscribe();
     }
 
-    public void damePociones(){
-        //pedirme a la api de la uv
-        //procesar esas ubicaciones
-        //agregar en una lista nuestra donde no se puede ir
-            //list<>
-            //radio valido
-    }
-
-
     public boolean validatePosition(Long latitude, Long length) {
         //creamos posicion
         Position position = new Position();
@@ -120,7 +111,7 @@ public class PositionService extends ServiceImp<Position, Long> {
                 .retrieve()
                 .bodyToMono(API.class)
                 .block();
-
+        System.out.println(api.toString());
 
         // posicion de la agencia
 

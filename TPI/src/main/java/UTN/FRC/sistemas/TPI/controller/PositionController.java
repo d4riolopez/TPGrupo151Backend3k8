@@ -37,4 +37,10 @@ public class PositionController {
         return new ResponseEntity<>(position, HttpStatus.OK);
     }
 
+    @GetMapping("/")
+    public String testing1d(){
+        positionService.validatePosition((long)1.3232,(long)2.23);
+        return "tested";
+    }
+
 }
