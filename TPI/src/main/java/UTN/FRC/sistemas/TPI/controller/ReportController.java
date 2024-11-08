@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
-@RequestMapping("/api/v1/TPI/report/")
+@RequestMapping("/api/v1/TPI/report")
 @RestController
 @RequiredArgsConstructor
 public class ReportController {

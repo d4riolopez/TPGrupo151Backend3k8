@@ -4,6 +4,9 @@ import UTN.FRC.sistemas.TPI.exceptionHandling.exception.PositionNotFoundExceptio
 import UTN.FRC.sistemas.TPI.model.entities.Position;
 import UTN.FRC.sistemas.TPI.model.entities.Test;
 import UTN.FRC.sistemas.TPI.repository.PositionRepository;
+import UTN.FRC.sistemas.TPI.utils.API;
+import UTN.FRC.sistemas.TPI.utils.Posicion;
+import UTN.FRC.sistemas.TPI.utils.ZonaPeligrosa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -92,7 +95,6 @@ public class PositionService extends ServiceImp<Position, Long> {
                 .bodyToMono(String.class)
                 .doOnSuccess(success -> System.out.println("Notification send successfully to the employee"))
                 .subscribe();
-
     }
 
     public void damePociones(){
@@ -103,10 +105,41 @@ public class PositionService extends ServiceImp<Position, Long> {
             //radio valido
     }
 
-    private boolean validatePosition(Long latitude, Long length) {
+
+    public boolean validatePosition(Long latitude, Long length) {
         //creamos posicion
-        //return (esta dentro radio && !EstaZonaPRohibida)
+        Position position = new Position();
+        position.setLatitude(latitude);
+        position.setLength(length);
+
+        API respuestaAPI = new API();
+        respuestaAPI.setCoordenadasAgencia(new Posicion(42.50886738457441,1.5347139324337429));
+        respuestaAPI.setRadioAdmitidoKm(5);
+        respuestaAPI.setZonaPeligrosa(List.of(
+                new ZonaPeligrosa(
+                        new Posicion(42.5100061756744, 1.5366548639320794),
+                        new Posicion (42.50874384583355, 1.5387755676026835)
+                ),
+                new ZonaPeligrosa(
+                        new Posicion(42.507647709544536, 1.5341898505922056),
+                        new Posicion (42.50724930962572, 1.5378015588544913)
+                ),
+                new ZonaPeligrosa(
+                        new Posicion(42.5103818437401, 1.529033233491418),
+                        new Posicion (42.50964884074852, 1.5321785196039148)
+                )
+        ));
+
+        // posicion de la agencia
+
+        if (calculateDistanceEuclidean(position, respuestaAPI.getCoordenadasAgencia()) < respuestaAPI.getRadioAdmitidoKm()){
+            System.out.println("Está dentro del radio de la agencia");
+            return true;
+        }
+
+        //return (esta dentro radio && !EstaZonaProhibida)
         // needs to be implemented
+        System.out.println("Está afuera del rango");
         return false;
     }
 
@@ -114,12 +147,12 @@ public class PositionService extends ServiceImp<Position, Long> {
         return true;
         //if(aaa && bbb && ccc)
     }
-    public double calculateDistanceEuclidean(Position a, Position b) {
+    public double calculateDistanceEuclidean(Position a, Posicion b) {
         return Math.sqrt(
                 Math.pow(2,
-                        ((b.getLatitude() - a.getLatitude()))*111 ) +
+                        ((b.getLat() - a.getLatitude()))*111 ) +
                         Math.pow(2,
-                                (b.getLength() - a.getLength())*111
+                                (b.getLon() - a.getLength())*111
                         ));
     }
 
