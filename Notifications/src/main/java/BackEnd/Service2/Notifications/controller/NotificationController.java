@@ -1,7 +1,7 @@
 package BackEnd.Service2.Notifications.controller;
 
-import BackEnd.Service2.Notifications.service.NotificationService;
 import BackEnd.Service2.Notifications.model.Notification;
+import BackEnd.Service2.Notifications.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

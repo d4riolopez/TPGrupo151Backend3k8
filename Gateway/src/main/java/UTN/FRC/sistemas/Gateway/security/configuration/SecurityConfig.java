@@ -39,21 +39,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public ReactiveAuthenticationManager reactiveAuthenticationManager(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(service);
-        provider.setPasswordEncoder(getPasswordEncoder());
-        return new ReactiveAuthenticationManager(provider);
-    }
-
-
-    //----------Configuration using MVC for security, not supported for webFLux
-    /*
-    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
-
 
     @Bean
     public DaoAuthenticationProvider getProvider() {
@@ -61,7 +49,6 @@ public class SecurityConfig {
         provider.setPasswordEncoder(getPasswordEncoder());
         provider.setUserDetailsService(service);
         return provider;
-
     }
 
     @Bean
@@ -81,5 +68,5 @@ public class SecurityConfig {
                 .addFilterBefore(getFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(getProvider())
                 .build();
-    }*/
+    }
 }
