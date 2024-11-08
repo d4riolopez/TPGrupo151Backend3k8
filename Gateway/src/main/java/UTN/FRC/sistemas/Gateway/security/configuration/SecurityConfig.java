@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,9 +39,21 @@ public class SecurityConfig {
     }
 
     @Bean
+    public ReactiveAuthenticationManager reactiveAuthenticationManager(){
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(service);
+        provider.setPasswordEncoder(getPasswordEncoder());
+        return new ReactiveAuthenticationManager(provider);
+    }
+
+
+    //----------Configuration using MVC for security, not supported for webFLux
+    /*
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+
 
     @Bean
     public DaoAuthenticationProvider getProvider() {
@@ -68,5 +81,5 @@ public class SecurityConfig {
                 .addFilterBefore(getFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(getProvider())
                 .build();
-    }
+    }*/
 }
