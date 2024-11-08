@@ -10,6 +10,7 @@ import UTN.FRC.sistemas.TPI.utils.ZonaPeligrosa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,12 +22,14 @@ public class PositionService extends ServiceImp<Position, Long> {
     private final String positionNotFoundMessage = "There isn't a position with that id:";
     private final TestService testService;
     private final WebClient webClient;
+    private final WebClient apiUTN;
 
     @Autowired
     public PositionService(WebClient.Builder builder, PositionRepository positionRepository, TestService testService) {
         this.repository = positionRepository;
         this.testService = testService;
         this.webClient = builder.baseUrl("http://localhost:8081").build();
+        this.apiUTN = builder.baseUrl("https://labsys.frc.utn.edu.ar/apps-disponibilizadas/backend").build();
     }
 
     public Position calculatePosition(Test test, Long latitude, Long length) {
@@ -112,27 +115,16 @@ public class PositionService extends ServiceImp<Position, Long> {
         position.setLatitude(latitude);
         position.setLength(length);
 
-        API respuestaAPI = new API();
-        respuestaAPI.setCoordenadasAgencia(new Posicion(42.50886738457441,1.5347139324337429));
-        respuestaAPI.setRadioAdmitidoKm(5);
-        respuestaAPI.setZonaPeligrosa(List.of(
-                new ZonaPeligrosa(
-                        new Posicion(42.5100061756744, 1.5366548639320794),
-                        new Posicion (42.50874384583355, 1.5387755676026835)
-                ),
-                new ZonaPeligrosa(
-                        new Posicion(42.507647709544536, 1.5341898505922056),
-                        new Posicion (42.50724930962572, 1.5378015588544913)
-                ),
-                new ZonaPeligrosa(
-                        new Posicion(42.5103818437401, 1.529033233491418),
-                        new Posicion (42.50964884074852, 1.5321785196039148)
-                )
-        ));
+        API api = apiUTN.get()
+                .uri("/api/v1/configuracion/")
+                .retrieve()
+                .bodyToMono(API.class)
+                .block();
+
 
         // posicion de la agencia
 
-        if (calculateDistanceEuclidean(position, respuestaAPI.getCoordenadasAgencia()) < respuestaAPI.getRadioAdmitidoKm()){
+        if (calculateDistanceEuclidean(position, api.getCoordenadasAgencia()) < api.getRadioAdmitidoKm()){
             System.out.println("Está dentro del radio de la agencia");
             return true;
         }
