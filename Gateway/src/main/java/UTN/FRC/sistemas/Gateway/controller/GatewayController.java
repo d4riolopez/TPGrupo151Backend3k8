@@ -1,6 +1,7 @@
 package UTN.FRC.sistemas.Gateway.controller;
 
 import UTN.FRC.sistemas.Gateway.configuration.GatewayConfig;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -16,11 +17,11 @@ public class GatewayController {
     private final GatewayConfig config;
 
     // Ruta para el servicio de notificaciones
-    @RequestMapping(value = "/notification/{path:^(?!notification$).*$}", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PATCH, RequestMethod.PUT})
+    @RequestMapping(value = "/notification/**", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<?> redirectNotificationService(
-            @PathVariable("path") String path,
-            @RequestBody(required = false) String body,
-            HttpMethod method) {
+            //@PathVariable("path") String path,
+            @RequestBody(required = false) String body, HttpMethod method, HttpServletRequest request) {
+        String path = request.getRequestURI().split("/notification/")[1];
 
         String url = config.getRouteNotificationService() + "/api/v1/notification/" + path;
         System.out.println("url: " + url + " method:" + method.name());
@@ -29,16 +30,16 @@ public class GatewayController {
     }
 
     // Ruta para el servicio TPI
-    @RequestMapping(value = "/TPI/{path:^(?!TPI$).*$}", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PATCH, RequestMethod.PUT})
+    @RequestMapping(value = "/TPI/**", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PATCH, RequestMethod.PUT})
     public ResponseEntity<?> redirectTPIService(
-            @PathVariable("path") String path,
-            @RequestBody(required = false) String body,
-            HttpMethod method) {
+            //@PathVariable("path") String path,
+            @RequestBody(required = false) String body, HttpMethod method, HttpServletRequest request) {
+        String path = request.getRequestURI().split("/TPI/")[1];
 
         String url = config.getRouteTPIService() + "/api/v1/TPI/" + path;
         System.out.println("url: " + url + " method:" + method.name());
 
         HttpEntity<String> entity = new HttpEntity<>(body);
-        return restTemplate.exchange(url,method, entity, String.class);
+        return restTemplate.exchange(url, method, entity, String.class);
     }
 }
