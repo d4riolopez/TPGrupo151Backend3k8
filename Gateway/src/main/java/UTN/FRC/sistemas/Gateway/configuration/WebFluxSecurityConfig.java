@@ -1,6 +1,7 @@
 package UTN.FRC.sistemas.Gateway.configuration;
 
 import UTN.FRC.sistemas.Gateway.filter.JwtRequestFilter;
+import UTN.FRC.sistemas.Gateway.service.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
+import org.springframework.context.annotation.Primary;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -23,7 +25,11 @@ public class WebFluxSecurityConfig {
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtRequestFilter jwtRequestFilter) {
         http.csrf().disable()
-                .authorizeExchange().pathMatchers("/login").permitAll()
+                .authorizeExchange()
+                .pathMatchers("/login").permitAll()
+                .pathMatchers("/api/v1/notification/**").hasRole("EMPLOYED")
+                .pathMatchers("/api/v1/vehicle/**").hasRole("USER")
+                .pathMatchers("/api/v1/reports/**").hasRole("ADMIN")
                 .anyExchange().authenticated()
                 .and()
                 .addFilterBefore(jwtRequestFilter, SecurityWebFiltersOrder.AUTHORIZATION);
@@ -37,13 +43,27 @@ public class WebFluxSecurityConfig {
     }
 
     @Bean
+    @Primary
     public ReactiveUserDetailsService userDetailsService() {
         UserDetails user = User.builder()
                 .username("user")
                 .password(passwordEncoder().encode("password"))
                 .roles("USER")
                 .build();
-        return new MapReactiveUserDetailsService(user);
+
+        UserDetails admin = User.builder()
+                .username("admin")
+                .password(passwordEncoder().encode("adminpassword"))
+                .roles("ADMIN")
+                .build();
+
+        UserDetails employed = User.builder()
+                .username("employed")
+                .password(passwordEncoder().encode("employedpassword"))
+                .roles("EMPLOYED")
+                .build();
+
+        return new MapReactiveUserDetailsService(user, admin, employed);
     }
 
     @Bean
@@ -53,4 +73,3 @@ public class WebFluxSecurityConfig {
         return authenticationManager;
     }
 }
-

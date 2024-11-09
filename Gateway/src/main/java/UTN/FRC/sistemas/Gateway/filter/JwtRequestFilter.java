@@ -20,7 +20,6 @@ public class JwtRequestFilter implements WebFilter {
 
     @Value("${jwt.secret}")
     private String secret;
-
     private final ReactiveUserDetailsService userDetailsService;
 
     public JwtRequestFilter(ReactiveUserDetailsService userDetailsService) {
@@ -67,7 +66,9 @@ public class JwtRequestFilter implements WebFilter {
     }
 
     private boolean isTokenExpired(String token) {
-        final Date expiration = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getExpiration();
+        final Date expiration = Jwts.parser().setSigningKey(secret).parseClaimsJws(token)
+                .getBody().getExpiration();
         return expiration.before(new Date());
     }
 }
+
