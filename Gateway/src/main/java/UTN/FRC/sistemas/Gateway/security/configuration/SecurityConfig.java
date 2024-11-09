@@ -61,6 +61,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/v1/TPI/test/").hasAuthority(Role.EMPLOYEE.name())
                         .requestMatchers("/api/v1/TPI/position/**").hasAuthority(Role.INTERESTED.name())
                         .requestMatchers("/api/v1/TPI/report/**").hasAuthority(Role.ADMIN.name())
+                        .anyRequest().authenticated()
                 )
 
 

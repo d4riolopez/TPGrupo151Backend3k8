@@ -12,7 +12,7 @@ public class GatewayConfig {
     @Value("${notification-service.basic-path}")
     private String routeNotificationService;
 
-    @Value("${tpi-service.basic-path}")
+    @Value("${tpi-service.basic.path}")
     private String routeTPIService;
 
     @Bean
