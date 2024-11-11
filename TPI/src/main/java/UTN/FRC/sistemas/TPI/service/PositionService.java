@@ -98,6 +98,7 @@ public class PositionService extends ServiceImp<Position, Long> {
                 .bodyToMono(String.class)
                 .doOnSuccess(success -> System.out.println("Notification send successfully to the employee"))
                 .subscribe();
+        System.out.println("notification sended");
     }
 
     public boolean validatePosition(Long latitude, Long length) {
@@ -127,8 +128,8 @@ public class PositionService extends ServiceImp<Position, Long> {
     }
 
     public Posicion calcularCentroDeZona(Posicion pos1, Posicion pos2) {
-        double centroX = pos1.getLon() + pos2.getLon();
-        double centroY = pos1.getLat() + pos2.getLat();
+        double centroX = (pos1.getLon() + pos2.getLon())/2;
+        double centroY = (pos1.getLat() + pos2.getLat())/2;
 
         Posicion centro = new Posicion(centroX, centroY);
 
