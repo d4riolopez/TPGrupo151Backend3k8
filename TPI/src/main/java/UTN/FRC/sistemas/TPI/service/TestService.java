@@ -14,7 +14,9 @@ import UTN.FRC.sistemas.TPI.repository.TestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,8 +30,12 @@ public class TestService extends ServiceImp<Test, Long> {
         validateEmployee(test.getEmployee());
         validateInterested(test.getInterested());
         validateVehicle(test.getVehicle());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         test.setStartedDateTime(LocalDateTime.now());
 
+        // Si SQLite no interpreta bien LocalDateTime, guárdalo como String:
+        String formattedDate = test.getStartedDateTime().format(formatter);
+        System.out.println("Fecha formateada: " + formattedDate);
         repository.save(test);
     }
 

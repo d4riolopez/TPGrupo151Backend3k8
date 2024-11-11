@@ -20,14 +20,14 @@ public class TestController {
     private final TestMapper mapper;
 
     //validation applied on test service
-    @PostMapping("/test")
+    @PostMapping("/")
     public ResponseEntity<?> createTest(@Valid @RequestBody TestDto dto) {
         testService.create(mapper.toEntity(dto));
         return ResponseEntity.ok("Test Successfully created");
     }
 
     // Listar todas las pruebas en curso en un momento dado
-    @GetMapping("/test")
+    @GetMapping("/")
     public ResponseEntity<?> getOngoingTests() {
         List<Test> tests = testService.getOngoingTests();
         return new ResponseEntity<>(tests, HttpStatus.OK);
@@ -35,7 +35,7 @@ public class TestController {
 
     //Finalizar una prueba, permitiéndole al empleado agregar un comentario
     //sobre la misma
-    @PatchMapping("/test")
+    @PatchMapping("/")
     public ResponseEntity<?> finishTest(@Valid @RequestBody TestDto dto) {
         testService.finishTest(mapper.toEntity(dto));
         return new ResponseEntity<>("Test finished", HttpStatus.OK);

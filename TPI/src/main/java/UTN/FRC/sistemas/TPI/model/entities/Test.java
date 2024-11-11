@@ -3,19 +3,24 @@ package UTN.FRC.sistemas.TPI.model.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter@Setter
 @Entity
 @Table(name = "test_drives")
+@ToString
 public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startedDateTime;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endedDateTime;
 
     private String comments;
