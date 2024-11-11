@@ -102,9 +102,7 @@ public class PositionService extends ServiceImp<Position, Long> {
 
     public boolean validatePosition(Long latitude, Long length) {
         //creamos posicion
-        Position position = new Position();
-        position.setLatitude(latitude);
-        position.setLength(length);
+        Posicion posicion = new Posicion(latitude, length);
 
         API api = apiUTN.get()
                 .uri("/api/v1/configuracion/")
@@ -113,29 +111,43 @@ public class PositionService extends ServiceImp<Position, Long> {
                 .block();
         System.out.println(api.toString());
 
-        // posicion de la agencia
 
-        if (calculateDistanceEuclidean(position, api.getCoordenadasAgencia()) < api.getRadioAdmitidoKm()){
-            System.out.println("Está dentro del radio de la agencia");
+        if (calculateDistanceEuclidean(posicion, api.getCoordenadasAgencia()) < api.getRadioAdmitidoKm()){
+            for(ZonaPeligrosa zonaPeligrosa : api.getZonasRestringidas()){
+                if(estaEnZonaProhibida(zonaPeligrosa, posicion)){
+                    System.out.println("Está en zona peligrosa");
+                    return false;
+                }
+            }
+            System.out.println("La posición es válida");
             return true;
         }
-
-        //return (esta dentro radio && !EstaZonaProhibida)
-        // needs to be implemented
         System.out.println("Está afuera del rango");
         return false;
     }
 
-    public boolean estaEnZonaProhibida(Position pos){
-        return true;
-        //if(aaa && bbb && ccc)
+    public Posicion calcularCentroDeZona(Posicion pos1, Posicion pos2) {
+        double centroX = pos1.getLon() + pos2.getLon();
+        double centroY = pos1.getLat() + pos2.getLat();
+
+        Posicion centro = new Posicion(centroX, centroY);
+
+        return centro;
     }
-    public double calculateDistanceEuclidean(Position a, Posicion b) {
+
+    public boolean estaEnZonaProhibida(ZonaPeligrosa zonaPeligrosa, Posicion pos){
+        Posicion centro = calcularCentroDeZona(zonaPeligrosa.getNoroeste(), zonaPeligrosa.getSureste());
+
+        double radio = calculateDistanceEuclidean(zonaPeligrosa.getNoroeste(), zonaPeligrosa.getSureste()) / 2f;
+
+        return calculateDistanceEuclidean(centro, pos) < radio;
+    }
+    public double calculateDistanceEuclidean(Posicion a, Posicion b) {
         return Math.sqrt(
                 Math.pow(2,
-                        ((b.getLat() - a.getLatitude()))*111 ) +
+                        ((b.getLat() - a.getLat()))*111 ) +
                         Math.pow(2,
-                                (b.getLon() - a.getLength())*111
+                                (b.getLon() - a.getLon())*111
                         ));
     }
 
