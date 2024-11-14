@@ -21,6 +21,7 @@ public class TestMapper extends Mapper<Test, TestDto> {
 
     @Override
     public Test toEntity(TestDto dto) {
+        //here i most valid if the test exist to load the values from db
         Test test = new Test();
         Employee employee = employeeService.findById(dto.employeeID());
         Vehicle vehicle = vehicleService.findById(dto.vehicleId());

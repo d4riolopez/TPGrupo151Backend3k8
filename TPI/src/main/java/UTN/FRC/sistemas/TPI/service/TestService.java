@@ -30,12 +30,9 @@ public class TestService extends ServiceImp<Test, Long> {
         validateEmployee(test.getEmployee());
         validateInterested(test.getInterested());
         validateVehicle(test.getVehicle());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        test.setStartedDateTime(LocalDateTime.now());
 
-        // Si SQLite no interpreta bien LocalDateTime, guárdalo como String:
-        String formattedDate = test.getStartedDateTime().format(formatter);
-        System.out.println("Fecha formateada: " + formattedDate);
+        test.setStartedDateTime(LocalDateTime.now());
+        System.out.println("");
         repository.save(test);
     }
 

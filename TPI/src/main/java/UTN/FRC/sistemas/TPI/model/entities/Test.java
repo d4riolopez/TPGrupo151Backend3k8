@@ -16,11 +16,9 @@ public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Temporal(TemporalType.TIMESTAMP)
+    
     private LocalDateTime startedDateTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endedDateTime;
 
     private String comments;
